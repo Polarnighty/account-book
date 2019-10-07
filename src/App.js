@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css";
 import PriceList from "./components/PriceList";
 import ViewTab from "./components/ViewTab";
+import MonthPicker from "./components/MonthPicker";
+
 import { LIST_VIEW, CHART_VIEW } from "./utility";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -31,8 +33,13 @@ function App() {
           alert(item.id);
         }}
       ></PriceList>
-      <ViewTab activeTab={CHART_VIEW} onTabChange={view=>{console.log(view);
-      }} ></ViewTab>
+      <ViewTab
+        activeTab={CHART_VIEW}
+        onTabChange={view => {
+          console.log(view);
+        }}
+      ></ViewTab>
+      <MonthPicker year={2018} month={9} />
     </div>
   );
 }
