@@ -39,7 +39,7 @@ class MonthPicker extends React.Component {
     const yearRange = range(9, -4).map(number => number + year);
     return (
       <div className="dropdown month-picker-component">
-        <h4>选择月份</h4>
+        <p>选择月份</p>
         <button
           onClick={this.toggleDropdown}
           className="btn btn-secondary dropdown-toggle"

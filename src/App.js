@@ -1,13 +1,8 @@
 import React from "react";
 import "./App.css";
-import PriceList from "./components/PriceList";
-import ViewTab from "./components/ViewTab";
-import MonthPicker from "./components/MonthPicker";
-
-import { LIST_VIEW, CHART_VIEW } from "./utility";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import Home from "./containers/Home";
 const items = [
   {
     id: 1,
@@ -24,23 +19,7 @@ const items = [
 function App() {
   return (
     <div className="App">
-      <PriceList
-        items={items}
-        onDeleteItem={item => {
-          alert(item.id);
-        }}
-        onModifyItem={item => {
-          alert(item.id);
-        }}
-      ></PriceList>
-      <ViewTab
-        activeTab={CHART_VIEW}
-        onTabChange={view => {
-          console.log(view);
-        }}
-      ></ViewTab>
-      <MonthPicker year={2018} month={9} onChange={(year,month)=>{console.log(year,month);
-      }} />
+      <Home />
     </div>
   );
 }
