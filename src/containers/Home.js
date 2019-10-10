@@ -14,7 +14,7 @@ import {
   padLeft
 } from "../utility";
 
-const categories = {
+export const categories = {
   "1": {
     id: "1",
     iconName: "ios-plane",
@@ -28,27 +28,43 @@ const categories = {
     name: "理财"
   }
 };
-const items = [
+export const items = [
   {
     id: 1,
     title: "去上海工作",
     price: 400,
-    date: "2019-9-10",
+    date: "2019-09-10",
     cid: 1
   },
   {
     id: 2,
     title: "去北京工作",
     price: 400,
-    date: "2019-10-10",
+    date: "2019-10-15",
     cid: 2
-  }
+  },
+  {
+    id: 3,
+    title: "去广州工作",
+    price: 400,
+    date: "2019-10-16",
+    cid: 2
+  },
+  {
+    id: 4,
+    title: "去深圳工作",
+    price: 400,
+    date: "2019-08-10",
+    cid: 1
+  },
+
+
 ];
 const newItem = {
   id: 4,
   title: "新添加的项目",
   price: 233,
-  date: "2019-9-10",
+  date: "2019-10-10",
   cid: 1
 };
 
@@ -66,21 +82,22 @@ class Home extends React.Component {
       tabView: view
     });
   };
-  changDate = (year,month) => {
-
-  };
-  modifyItem = (modifiedItem) => {
-    const modifiedItems=this.state.items.map(item=>{
-      if (item.id===modifiedItem.id) {
-        return {...item,title:'更新后的标题'}
-      }else{
-        return item
-      }
+  changeDate = (year, month) => {
+    this.setState({
+      currentDate:{year, month}
     })
+  };
+  modifyItem = modifiedItem => {
+    const modifiedItems = this.state.items.map(item => {
+      if (item.id === modifiedItem.id) {
+        return { ...item, title: "更新后的标题" };
+      } else {
+        return item;
+      }
+    });
     this.setState({
       items: modifiedItems
     });
-
   };
   createItem = () => {
     this.setState({
@@ -99,13 +116,16 @@ class Home extends React.Component {
     let totalIncome = 0,
       totalOutcome = 0;
     const { items, currentDate, tabView } = this.state;
-    const itemsWithCategory = items.map(item => {
-      item.category = categories[item.cid];
-      console.log(categories[item.cid]);
-      return item;
-    }).filter(item=>{
-      return item.date.includes(`${currentDate.year}-${padLeft(currentDate.month)}`)
-    })
+    const itemsWithCategory = items
+      .map(item => {
+        item.category = categories[item.cid];
+        return item;
+      })
+      .filter(item => {
+        return item.date.includes(
+          `${currentDate.year}-${padLeft(currentDate.month)}`
+        );
+      });
     itemsWithCategory.forEach(item => {
       if (item.category.type === TYPE_OUTCOME) {
         totalIncome += item.price;
@@ -121,9 +141,7 @@ class Home extends React.Component {
               <MonthPicker
                 year={currentDate.year}
                 month={currentDate.month}
-                onChange={(year, month) => {
-                  console.log(year, month);
-                }}
+                onChange={this.changeDate}
               />
             </div>
             <div className="col">
