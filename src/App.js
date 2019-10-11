@@ -1,26 +1,20 @@
 import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Create from "./containers/Create";
 
 import Home from "./containers/Home";
-const items = [
-  {
-    id: 1,
-    title: "1",
-    price: 400,
-    date: "2019-9-10",
-    category: {
-      id: "1",
-      iconName: "旅行",
-      type: "outcome"
-    }
-  }
-];
 function App() {
   return (
-    <div className="App">
-      <Home />
-    </div>
+    <Router>
+      <div className="App">
+        <Route path="/" exact component={Home} />
+        <Route path="/create" component={Create} />
+        <Route path="/edit/:id" component={Create} />
+
+      </div>
+    </Router>
   );
 }
 

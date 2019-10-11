@@ -10,6 +10,20 @@ class MonthPicker extends React.Component {
       selectedYear: this.props.year
     };
   }
+  componentDidMount(){
+    document.addEventListener('click',this.handleClick,false)
+  }
+  componentWillUnmount(){
+    document.removeEventListener('click',this.handleClick,false)
+  }
+  handleClick=(e)=>{
+    if (this.node.contains(e.target)) {
+      return
+    }
+    this.setState({
+      isOpen:false
+    })
+  }
   toggleDropdown = event => {
     event.preventDefault();
     this.setState({
@@ -27,7 +41,7 @@ class MonthPicker extends React.Component {
     this.setState({
       isOpen: false
     });
-    this.props.onChange(this.state.selectedYear, monthNumber)
+    this.props.onChange(this.state.selectedYear, monthNumber);
   };
 
   render() {
@@ -37,7 +51,7 @@ class MonthPicker extends React.Component {
     const monthRange = range(12, 1);
     const yearRange = range(9, -4).map(number => number + year);
     return (
-      <div className="dropdown month-picker-component">
+      <div className="dropdown month-picker-component" ref={(ref)=>{this.node= ref}}>
         <p>选择月份</p>
         <button
           onClick={this.toggleDropdown}
@@ -71,7 +85,7 @@ class MonthPicker extends React.Component {
                   <a
                     key={index}
                     role="button"
-                    onClick={(event) => {
+                    onClick={event => {
                       this.selectMonth(event, monthNumber);
                     }}
                     className={
@@ -95,7 +109,7 @@ class MonthPicker extends React.Component {
 MonthPicker.propTypes = {
   year: PropTypes.number.isRequired,
   month: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-}
+  onChange: PropTypes.func.isRequired
+};
 
 export default MonthPicker;

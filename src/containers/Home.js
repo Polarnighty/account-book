@@ -77,6 +77,7 @@ class Home extends React.Component {
       tabView: LIST_VIEW
     };
   }
+  
   changView = view => {
     this.setState({
       tabView: view
