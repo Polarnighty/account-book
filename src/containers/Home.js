@@ -4,7 +4,9 @@ import ViewTab from "../components/ViewTab";
 import MonthPicker from "../components/MonthPicker";
 import TotalPrice from "../components/TotalPrice";
 import CreateBtn from "../components/CreateBtn";
-// import { ReactComponent } from "*.svg";
+import { Tabs, Tab } from "../components/Tabs";
+import Ionicon from "react-ionicons";
+
 import {
   LIST_VIEW,
   CHART_VIEW,
@@ -56,9 +58,7 @@ export const items = [
     price: 400,
     date: "2019-08-10",
     cid: 1
-  },
-
-
+  }
 ];
 const newItem = {
   id: 4,
@@ -67,26 +67,26 @@ const newItem = {
   date: "2019-10-10",
   cid: 1
 };
-
+const tabsText=[LIST_VIEW,CHART_VIEW]
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       items,
       currentDate: parseToYearAndMonth(),
-      tabView: LIST_VIEW
+      tabView: tabsText[0]
     };
   }
-  
-  changView = view => {
+
+  changView = (index) => {
     this.setState({
-      tabView: view
+      tabView: tabsText[index]
     });
   };
   changeDate = (year, month) => {
     this.setState({
-      currentDate:{year, month}
-    })
+      currentDate: { year, month }
+    });
   };
   modifyItem = modifiedItem => {
     const modifiedItems = this.state.items.map(item => {
@@ -150,8 +150,27 @@ class Home extends React.Component {
             </div>
           </div>
         </header>
-        <div className="content-area py-3 px+3">
-          <ViewTab activeTab={tabView} onTabChange={this.changView} />
+        <div className="content-area py-3 px-3">
+          <Tabs activeIndex={0} onTabChange={this.changView}>
+            <Tab>
+              <Ionicon
+                className="rounded-circle mr-2"
+                fontSize="25px"
+                color={"#007bff"}
+                icon="ios-paper"
+              />
+              列表模式
+            </Tab>
+            <Tab>
+              <Ionicon
+                className="rounded-circle mr-2"
+                fontSize="25px"
+                color={"#007bff"}
+                icon="ios-pie"
+              />
+              图表模式
+            </Tab>
+          </Tabs>
           <CreateBtn onClick={this.createItem}></CreateBtn>
           {tabView === LIST_VIEW && (
             <PriceList
