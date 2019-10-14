@@ -1,12 +1,13 @@
 import React from "react";
 import PriceList from "../components/PriceList";
-import ViewTab from "../components/ViewTab";
+import { withRouter } from "react-router-dom";
 import MonthPicker from "../components/MonthPicker";
 import TotalPrice from "../components/TotalPrice";
 import CreateBtn from "../components/CreateBtn";
 import { Tabs, Tab } from "../components/Tabs";
 import Ionicon from "react-ionicons";
-
+import { Appcontext } from "../App";
+import withContext from "../WithContext";
 import {
   LIST_VIEW,
   CHART_VIEW,
@@ -67,7 +68,7 @@ const newItem = {
   date: "2019-10-10",
   cid: 1
 };
-const tabsText=[LIST_VIEW,CHART_VIEW]
+const tabsText = [LIST_VIEW, CHART_VIEW];
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -78,7 +79,7 @@ class Home extends React.Component {
     };
   }
 
-  changView = (index) => {
+  changView = index => {
     this.setState({
       tabView: tabsText[index]
     });
@@ -88,32 +89,17 @@ class Home extends React.Component {
       currentDate: { year, month }
     });
   };
-  modifyItem = modifiedItem => {
-    const modifiedItems = this.state.items.map(item => {
-      if (item.id === modifiedItem.id) {
-        return { ...item, title: "更新后的标题" };
-      } else {
-        return item;
-      }
-    });
-    this.setState({
-      items: modifiedItems
-    });
+  modifyItem = (item) => {
+    this.props.history.push(`./edit/${item.id}`)
   };
   createItem = () => {
-    this.setState({
-      items: [newItem, ...this.state.items]
-    });
+    this.props.history.push('./create')
   };
-  deleteItem = deletedItem => {
-    const filteredItems = this.state.items.filter(
-      item => item.id !== deletedItem.id
-    );
-    this.setState({
-      items: filteredItems
-    });
+  deleteItem = (item) => {
+    console.log(this.props)
   };
   render() {
+    const {data}=this.props
     let totalIncome = 0,
       totalOutcome = 0;
     const { items, currentDate, tabView } = this.state;
@@ -182,7 +168,7 @@ class Home extends React.Component {
           {tabView === CHART_VIEW && <h1>待实现的图标区域</h1>}
         </div>
       </React.Fragment>
-    );
+    )
   }
 }
-export default Home;
+export default withRouter(withContext(Home))
