@@ -45,3 +45,6 @@ export const flatternArr=(arr)=>{
     return map
   },{})
 }
+export const ID =()=>{
+  return '_' +Math.random().toString(36).substring(2,9)
+}

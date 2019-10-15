@@ -16,7 +16,7 @@ const PriceList = ({ items, onModifyItem, onDeleteItem }) => {
               fontSize="30px"
               style={{ backgroundColor: "blue", padding: "5px" }}
               color={"#fff"}
-              icon='ios-plane'
+              icon={item.category.iconName}
             />
           </span>
           <span className="col-5">{item.title}</span>

@@ -13,7 +13,8 @@ class CategorySelect extends React.Component {
   selectedCategory = (e, category) => {
     this.setState({
       selectedCategoryId: category.id
-    });
+    })
+    console.log(this.state.selectedCategoryId);
     this.props.onSelectCategory(category);
     e.preventDefault();
   };

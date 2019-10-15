@@ -60,14 +60,7 @@ export const items = [
     date: "2019-08-10",
     cid: 1
   }
-];
-const newItem = {
-  id: 4,
-  title: "新添加的项目",
-  price: 233,
-  date: "2019-10-10",
-  cid: 1
-};
+]
 const tabsText = [LIST_VIEW, CHART_VIEW];
 class Home extends React.Component {
   constructor(props) {
@@ -96,23 +89,25 @@ class Home extends React.Component {
     this.props.history.push('./create')
   };
   deleteItem = (item) => {
-    console.log(this.props)
-  };
+    this.props.actions.deleteItem(item)
+    }
   render() {
     const {data}=this.props
+    
     let totalIncome = 0,
       totalOutcome = 0;
-    const { items, currentDate, tabView } = this.state;
-    const itemsWithCategory = items
-      .map(item => {
-        item.category = categories[item.cid];
-        return item;
+    const {items,categories}=data
+    const {  currentDate, tabView } = this.state;
+    const itemsWithCategory = Object.keys(items)
+      .map(id => {
+        items[id].category = categories[items[id].cid]
+        return items[id]
       })
       .filter(item => {
         return item.date.includes(
           `${currentDate.year}-${padLeft(currentDate.month)}`
-        );
-      });
+        )
+      })
     itemsWithCategory.forEach(item => {
       if (item.category.type === TYPE_OUTCOME) {
         totalIncome += item.price;
