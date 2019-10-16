@@ -17,70 +17,28 @@ import {
   padLeft
 } from "../utility";
 
-export const categories = {
-  "1": {
-    id: "1",
-    iconName: "ios-plane",
-    type: "income",
-    name: "旅行"
-  },
-  "2": {
-    id: "2",
-    iconName: "logo-yen",
-    type: "income",
-    name: "理财"
-  }
-};
-export const items = [
-  {
-    id: 1,
-    title: "去上海工作",
-    price: 400,
-    date: "2019-09-10",
-    cid: 1
-  },
-  {
-    id: 2,
-    title: "去北京工作",
-    price: 400,
-    date: "2019-10-15",
-    cid: 2
-  },
-  {
-    id: 3,
-    title: "去广州工作",
-    price: 400,
-    date: "2019-10-16",
-    cid: 2
-  },
-  {
-    id: 4,
-    title: "去深圳工作",
-    price: 400,
-    date: "2019-08-10",
-    cid: 1
-  }
-]
+
 const tabsText = [LIST_VIEW, CHART_VIEW];
 class Home extends React.Component {
   constructor(props) {
     super(props);
+    const {data}=this.props
+    const {items}=data
     this.state = {
-      items,
-      currentDate: parseToYearAndMonth(),
       tabView: tabsText[0]
-    };
+    }
   }
 
+  componentDidMount(){
+    this.props.actions.getInitalData()
+  }
   changView = index => {
     this.setState({
       tabView: tabsText[index]
     });
   };
   changeDate = (year, month) => {
-    this.setState({
-      currentDate: { year, month }
-    });
+    this.props.actions.selectNewMonth(year,month)
   };
   modifyItem = (item) => {
     this.props.history.push(`./edit/${item.id}`)
@@ -93,20 +51,14 @@ class Home extends React.Component {
     }
   render() {
     const {data}=this.props
-    
     let totalIncome = 0,
       totalOutcome = 0;
-    const {items,categories}=data
-    const {  currentDate, tabView } = this.state;
+    const {items,categories,currentDate}=data
+    const {   tabView } = this.state;
     const itemsWithCategory = Object.keys(items)
       .map(id => {
         items[id].category = categories[items[id].cid]
         return items[id]
-      })
-      .filter(item => {
-        return item.date.includes(
-          `${currentDate.year}-${padLeft(currentDate.month)}`
-        )
       })
     itemsWithCategory.forEach(item => {
       if (item.category.type === TYPE_OUTCOME) {

@@ -3,12 +3,10 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Create from "./containers/Create";
-import CategorySelect from "./components/CategorySelect";
 import Home from "./containers/Home";
-import { testCategories, testItems } from "./testData";
 import { flatternArr,ID,parseToYearAndMonth } from "./utility";
+import axios from "axios"
 
-// console.log(flatternArr(testItems));
 
 export const Appcontext = React.createContext();
 
@@ -16,14 +14,38 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: flatternArr(testItems),
-      categories: flatternArr(testCategories)
+      items: {},
+      categories: {},
+      currentDate:parseToYearAndMonth()
     }
     this.actions={
+      getInitalData:()=>{
+        const { currentDate} =this.state
+        const getURLWithData=`/items?monthCategory=${currentDate.year}-${currentDate.month}&_sort=timestamp&_order=desc`
+        const PromiseArr=[axios.get('/categories'),axios.get(getURLWithData)]
+        Promise.all(PromiseArr).then((arr)=>{
+          const [categories,items]=arr
+          this.setState({
+            items:flatternArr(items.data),
+            categories:flatternArr(categories.data),
+          })
+        })
+      },
+      selectNewMonth:(year,month)=>{
+        const getURLWithData=`/items?monthCategory=${year}-${month}&_sort=timestamp&_order=desc`
+        axios.get(getURLWithData).then(items=>{
+          this.setState({
+            items:flatternArr(items.data),
+            currentDate:{year,month}
+          })
+        })
+      },
       deleteItem:(item)=>{
-        delete this.state.items[item.id]
-        this.setState({
-          items:this.state.items
+        axios.delete(`/items/${item.id}`).then(()=>{
+          delete this.state.items[item.id]
+          this.setState({
+            items:this.state.items
+          })
         })
       },
       creatItem:(data,categoryId)=>{

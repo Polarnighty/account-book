@@ -40,11 +40,14 @@ class Create extends React.Component {
     }
   }
   render() {
+    console.log()
     const {data}=this.props
     const {items,categories}=data
     const {id} =this.props.match.params
     const {selectedTab,selectedCategory}=this.state
     const editItem = (id && items[id]) ? items[id] : {}
+    // console.log(categories)
+    // console.log(Object.keys(categories))
     const filterCategories = Object.keys(categories)
     .filter(id=>categories[id].type===selectedTab)
     .map(id=>categories[id])
