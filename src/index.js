@@ -6,9 +6,6 @@ import * as serviceWorker from './serviceWorker';
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios"
 
-axios.get('/items').then((res)=>{
-    console.log(res);
-})
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

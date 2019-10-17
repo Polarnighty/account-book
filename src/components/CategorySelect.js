@@ -6,21 +6,21 @@ import { Colors } from '../utility'
 class CategorySelect extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedCategoryId: props.selectedCategory && props.selectedCategory.id
-    };
+    // this.state = {
+    //   selectedCategoryId: props.selectedCategory && props.selectedCategory.id
+    // };
   }
   selectedCategory = (e, category) => {
     this.setState({
       selectedCategoryId: category.id
     })
-    console.log(this.state.selectedCategoryId);
     this.props.onSelectCategory(category);
     e.preventDefault();
   };
   render() {
-    const { categories } = this.props;
-    const { selectedCategoryId } = this.state;
+    const { categories,selectedCategory } = this.props;
+    const selectedCategoryId = selectedCategory && selectedCategory.id
+    // const { selectedCategoryId } = this.state;
     return (
       <div className="category-select-component">
         <div className="row">
