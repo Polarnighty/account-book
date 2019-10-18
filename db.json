@@ -213,24 +213,6 @@
       }
     },
     {
-      "title": "COS",
-      "price": 123,
-      "date": "2019-10-01",
-      "monthCategory": "2019-10",
-      "timestamp": 1569888000000,
-      "id": "_9mgyyww",
-      "cid": "1"
-    },
-    {
-      "title": "兼职收入",
-      "price": 123,
-      "date": "2019-10-19",
-      "monthCategory": "2019-10",
-      "timestamp": 1571443200000,
-      "id": "_2d7qn5z",
-      "cid": "1"
-    },
-    {
       "title": "兼职收入",
       "price": 5000,
       "date": "2019-10-26",
@@ -249,15 +231,6 @@
       "cid": "9"
     },
     {
-      "title": "旅游",
-      "price": 41231,
-      "date": "2019-10-11",
-      "monthCategory": "2019-10",
-      "timestamp": 1570752000000,
-      "id": "_ddy091y",
-      "cid": "1"
-    },
-    {
       "title": "海底捞",
       "price": 1561,
       "date": "2019-10-19",
@@ -265,6 +238,15 @@
       "timestamp": 1571443200000,
       "id": "_3xklrrh",
       "cid": "2"
+    },
+    {
+      "title": "打游戏",
+      "price": 4515,
+      "date": "2019-10-12",
+      "monthCategory": "2019-10",
+      "timestamp": 1570838400000,
+      "id": "_r4cmunt",
+      "cid": "1"
     }
   ]
 }
