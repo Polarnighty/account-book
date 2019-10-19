@@ -7,7 +7,7 @@ import PriceForm from "../components/PriceForm";
 import { TYPE_INCOME, TYPE_OUTCOME } from "../utility";
 import withContext from "../WithContext";
 const tabsText = [TYPE_OUTCOME, TYPE_INCOME];
-class Create extends React.Component {
+export class Create extends React.Component {
   constructor(props) {
     super(props)
     const {id} =props.match.params
@@ -85,10 +85,11 @@ class Create extends React.Component {
     )
   }
 }
-export default withRouter(withContext(Create))
+Create.propTypes = {
+  data: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
+  history: PropTypes.object,
+  match: PropTypes.object,
+}
 
-// { !validationPassed &&
-//     <div className="alert alert-danger mt-5" role="alert">
-//       请选择分类信息
-//     </div>
-//   }
+export default withRouter(withContext(Create))

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Create from "./containers/Create";
+import Create  from "./containers/Create";
 import Home from "./containers/Home";
 import { flatternArr, ID, parseToYearAndMonth } from "./utility";
 import axios from "axios";
@@ -48,19 +48,18 @@ class App extends Component {
         if (Object.keys(categories).length ===  0) {
           promiseArr.push(axios.get("/categories"))
         }
-        const itemAlreadyFeched = (Object.keys(items).indexOf(id)> -1)
-        if (id && !itemAlreadyFeched) {
-          const getURLWithId = `/items/${id}`;
+        const itemAlreadyFetched = !!(Object.keys(items).indexOf(id) > -1)       
+        if (id && !itemAlreadyFetched) {
+          const getURLWithId = `/items/${id}`
           promiseArr.push(axios.get(getURLWithId))
         }
         const [fetchCategories, editItem] = await Promise.all(promiseArr)
+
         const finalCategories = fetchCategories ? flatternArr(fetchCategories.data):categories
-        console.log(editItem)
         const finalItem = editItem ? editItem.data:items[id]
-        console.log(finalItem)
         if (id) {
           this.setState({
-            items: {...this.state.items,[id]:finalItem.data},
+            items: { ...this.state.items, [id]: finalItem },
             categories:finalCategories,
             isLoading: false
           })

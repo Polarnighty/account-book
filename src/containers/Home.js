@@ -8,16 +8,40 @@ import { Tabs, Tab } from "../components/Tabs";
 import Ionicon from "react-ionicons";
 import Loader from "../components/Loader";
 import withContext from "../WithContext";
+import PieChart from "../components/Piechart";
 import {
   LIST_VIEW,
   CHART_VIEW,
   TYPE_INCOME,
   TYPE_OUTCOME,
   parseToYearAndMonth,
-  padLeft
+  padLeft,
+  Colors
 } from "../utility";
 
 const tabsText = [LIST_VIEW, CHART_VIEW];
+const generateChartDataByCategory = (items, type = TYPE_OUTCOME) => {
+  let categoryMap = {};
+  items
+    .filter(item => item.category.type === type)
+    .forEach(item => {
+      if (categoryMap[item.cid]) {
+        categoryMap[item.cid].value += item.price * 1;
+        categoryMap[item.cid].items = [...categoryMap[item.cid].items, item.id];
+      } else {
+        categoryMap[item.cid] = {
+          category: item.category,
+          value: item.price * 1,
+          items: [item.id]
+        };
+      }
+    });
+  return Object.keys(categoryMap).map(mapKey => ({
+    ...categoryMap[mapKey],
+    name: categoryMap[mapKey].category.name
+  }));
+};
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -48,6 +72,7 @@ class Home extends React.Component {
   deleteItem = item => {
     this.props.actions.deleteItem(item);
   };
+
   render() {
     const { data } = this.props;
     let totalIncome = 0,
@@ -65,6 +90,15 @@ class Home extends React.Component {
         totalOutcome += item.price;
       }
     });
+    const chartOutcomDataByCategory = generateChartDataByCategory(
+      itemsWithCategory,
+      TYPE_OUTCOME
+    );
+    const chartIncomeDataByCategory = generateChartDataByCategory(
+      itemsWithCategory,
+      TYPE_INCOME
+    );
+
     return (
       <React.Fragment>
         <header className="App-header">
@@ -113,7 +147,18 @@ class Home extends React.Component {
                   onModifyItem={this.modifyItem}
                 ></PriceList>
               )}
-              {tabView === CHART_VIEW && <h1>待实现的图标区域</h1>}
+              {tabView === CHART_VIEW && (
+                <React.Fragment>
+                  <PieChart
+                    title="本月支出"
+                    categoryData={chartOutcomDataByCategory}
+                  />
+                  <PieChart
+                    title="本月收入"
+                    categoryData={chartIncomeDataByCategory}
+                  />
+                </React.Fragment>
+              )}
             </React.Fragment>
           )}
         </div>
